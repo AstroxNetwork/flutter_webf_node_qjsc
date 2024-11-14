@@ -1,29 +1,70 @@
-# node-qjsc
-> Node.js addon for the [QuickJS](https://github.com/bellard/quickjs) compiler.
+# WBC
 
-Current supported version:
-+ 20210327
+The [WBC](https://github.com/openwebf/rfc/blob/main/working/wbc1.en-US.md)(WebF bytecode file) file generator.
+
+The WBC file is a specially designed binary file that contains pre-compiled JavaScript bytecodes and other assets, which could speed up the loading of WebF's application.
 
 ## Install
 
 ```
-npm install qjsc --save
+npm install @openwebf/wbc --save
 ```
 
-## Usage
+## Cli Usage
+
+**Install**
+```
+npm install @openwebf/wbc -g
+```
+
+**Convert JavaScript Into WBC file**
+
+```
+wbc -s /tmp/index.js -d /tmp
+```
+
+**Transform Inline Scripts in HTML**
+
+```
+wbc -s ./demo.html -d ./demo_wbc.html --convert-html
+```
+
+## Node Usage
+
+**Convert JavaScript Into WBC buffer**
 
 ```javascript
-const Qjsc = require('qjsc');
-const qjsc = new Qjsc();
+const { compileJavaScriptToWbc } = require('@openwebf/wbc');
 
-// Dump bytecode from javascript source;
-qjsc.compile('function hello() { return 1 + 1};'); // <Buffer ...>
+compileJavaScriptToWbc('function hello() { return 1 + 1};'); // <Buffer ...> the WBC bytes
+```
 
-// Use specified quickjs version
-qjsc = new Qjsc({version: '20210327'});
+**Transform Inline JavaScript Codes into WBC**
 
-// Get all supported versions.
-qjsc.getSupportedVersions();
+```javascript
+const { transformInlineScriptToWbc } = require('@openwebf/wbc');
+
+const transformedHtml = transformInlineScriptToWbc(`
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <script>
+        console.log('helloworld');
+    </script>
+</body>
+</html>
+`); 
+
+console.log(transformedHtml); /*
+<html lang="en">
+<body>
+    <script>
+    // The WBC binary contents
+    </script>
+
+</body></html>
+*/
+
 ```
 
 ## Contribute

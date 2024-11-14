@@ -5,7 +5,6 @@
       "sources": [
         "src/qjsc_20210327.cc",
         "deps/quickjs_2021_03_27/libbf.h",
-        "deps/quickjs_2021_03_27/libbf.c",
         "deps/quickjs_2021_03_27/cutils.c",
         "deps/quickjs_2021_03_27/cutils.h",
         "deps/quickjs_2021_03_27/libregexp.c",
@@ -19,12 +18,13 @@
         "deps/quickjs_2021_03_27/quickjs.h",
         "deps/quickjs_2021_03_27/quickjs-atom.h",
         "deps/quickjs_2021_03_27/quickjs-opcode.h",
+#         "deps/quickjs/src/libbf.c",
       ],
       'include_dirs': [
         "<!(node -p \"require('node-addon-api').include_dir\")",
+        "deps/quickjs/include",
       ],
       "defines": [
-        'CONFIG_BIGNUM',
         'CONFIG_VERSION=\"2021-03-27\"'
       ],
       'cflags!': [ '-fexceptions' ],
@@ -85,6 +85,7 @@
           ],
           'include_dirs': [
             "<!(node -p \"require('node-addon-api').include_dir\")",
+            "deps/quickjs/include",
             "compat/win32/pthreads",
             "compat/win32/atomic"
           ],
